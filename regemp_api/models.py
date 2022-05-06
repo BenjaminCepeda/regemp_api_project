@@ -14,3 +14,13 @@ class Empleado(models.Model):
     email = models.CharField(max_length=50)
     clave = models.CharField(max_length=15)
     estado = models.SmallIntegerField()
+
+class Perfil(models.Model):
+    descripcion = models.CharField(max_length=20)
+    esAdministrador = models.SmallIntegerField()
+    estado = models.SmallIntegerField()
+
+class usuario(models.Model):
+    nombreUsuario=models.CharField(max_length=20)
+    clave = models.CharField(max_length=15)
+    estado = models.SmallIntegerField()

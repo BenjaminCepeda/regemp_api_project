@@ -38,3 +38,18 @@ class EmpleadoList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PerfiList(APIView):
+    def get(self, request):
+        perfiles = Perfil.objects.all()
+        serializer = PerfilSerializer(perfiles, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = PerfilSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

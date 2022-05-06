@@ -4,4 +4,5 @@ from regemp_api import views
 urlpatterns = [
     path('departamento/', views.DepartamentoList.as_view()),
     path('empleado/', views.EmpleadoList.as_view()),
+    path('perfil/', views.PerfiList.as_view()),
 ]
