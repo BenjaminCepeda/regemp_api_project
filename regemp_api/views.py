@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from regemp_api.serializers import *
 from regemp_api.models import *
-
+from django.db.models.query_utils import Q
 
 class EmpleadoList(APIView):
     def get(self, request):
@@ -11,7 +11,7 @@ class EmpleadoList(APIView):
         email = request.GET.get('email', None)
         pwd = request.GET.get('pwd', None)
         if email is not None:
-            empleados = empleados.filter(email__iexact=email, clave__exact=pwd)
+            empleados = empleados.filter(Q(email__iexact=email)|Q(usuario__nombreUsuario=email), usuario__clave__exact=pwd)
         serializer = EmpleadoSerializer(empleados, many=True)
         return Response(serializer.data)
 
@@ -23,20 +23,6 @@ class EmpleadoList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request):
-        id = request.GET.get('id', None)
-        if id is not None:
-            empleado = Empleado.objects.get(id)
-            serializer = DepartamentoSerializer(empleado, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, id):
-        empleado = Empleado.objects.get(id)
-        empleado.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class EmpleadoDetail(APIView):
     def get(self, requestid, id):
@@ -104,6 +90,7 @@ class PerfilDetail(APIView):
         except Exception as ex:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
 class PerfilList(APIView):
     def get(self, requestid):
         perfiles = Perfil.objects.all()
@@ -154,6 +141,7 @@ class DepartamentoDetail(APIView):
         except Exception as ex:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
 class DepartamentoList(APIView):
     def get(self, requestid):
         departamentos = Departamento.objects.all()
@@ -163,6 +151,56 @@ class DepartamentoList(APIView):
 
     def post(self, request):
         serializer = DepartamentoSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UsuarioDetail(APIView):
+
+    def get(self, requestid, id):
+
+        try:
+            usuario = Usuario.objects.get(pk=id)
+            if usuario:
+                serializer = UsuarioSerializer(usuario)
+                return Response(serializer.data)
+        except Exception as ex:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status.HTTP_200_OK)
+
+    def put(self, request, id):
+        try:
+            usuario = Usuario.objects.get(pk=id)
+            if usuario:
+                serializer = UsuarioSerializer(usuario, data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as ex:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        try:
+            usuario = Usuario.objects.get(pk=id)
+            usuario.delete()
+            return Response(status.HTTP_200_OK)
+        except Exception as ex:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class UsuarioList(APIView):
+    def get(self, requestid):
+        usuarios = Usuario.objects.all()
+
+        serializer = UsuarioSerializer(usuarios, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = UsuarioSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
