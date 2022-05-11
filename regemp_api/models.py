@@ -1,5 +1,6 @@
 from djongo import models
 
+
 class Departamento(models.Model):
     descripcion = models.CharField(max_length=50)
     estado = models.SmallIntegerField()
@@ -20,7 +21,7 @@ class Perfil(models.Model):
     esAdministrador = models.SmallIntegerField()
     estado = models.SmallIntegerField()
 
-class usuario(models.Model):
+class Usuario(models.Model):
     nombreUsuario=models.CharField(max_length=20)
     clave = models.CharField(max_length=15)
     estado = models.SmallIntegerField()
