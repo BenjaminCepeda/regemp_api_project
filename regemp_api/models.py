@@ -13,7 +13,7 @@ class Perfil(models.Model):
 class Usuario(models.Model):
     nombreUsuario=models.CharField(max_length=20)
     clave = models.CharField(max_length=15)
-    perfil = models.ForeignKey(Perfil, on_delete=models.SET_NULL, null=True, related_name='perfil')
+    idPerfil = models.ForeignKey(Perfil, on_delete=models.SET_NULL, null=True, related_name='perfil')
     estado = models.SmallIntegerField()
 
 class Empleado(models.Model):
@@ -22,8 +22,8 @@ class Empleado(models.Model):
     direccion = models.CharField(max_length=100)
     celular = models.CharField(max_length=13)
     email = models.CharField(max_length=50)
-    usuario = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True,
+    idUsuario = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True,
                                 related_name='usuario')
-    departamento = models.ForeignKey(Departamento, on_delete=models.SET_NULL,
+    idDepartamento = models.ForeignKey(Departamento, on_delete=models.SET_NULL,
                                      null=True, related_name='departamento')
     estado = models.SmallIntegerField()

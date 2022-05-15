@@ -11,7 +11,8 @@ class EmpleadoList(APIView):
         email = request.GET.get('email', None)
         pwd = request.GET.get('pwd', None)
         if email is not None:
-            empleados = empleados.filter(Q(email__iexact=email)|Q(usuario__nombreUsuario=email), usuario__clave__exact=pwd)
+            empleados = empleados.filter(Q(email__iexact=email) |
+                Q(idUsuario__nombreUsuario=email), idUsuario__clave__exact=pwd)
         serializer = EmpleadoSerializer(empleados, many=True)
         return Response(serializer.data)
 
