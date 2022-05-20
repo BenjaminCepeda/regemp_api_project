@@ -2,6 +2,8 @@ from django.urls import path, include
 from regemp_api import views
 
 urlpatterns = [
+    path('estado/<id>/', views.EstadoDetail.as_view()),
+    path('estado/', views.EstadoList.as_view()),
     path('departamento/<id>/', views.DepartamentoDetail.as_view()),
     path('departamento/', views.DepartamentoList.as_view()),
     path('empleado/<id>/', views.EmpleadoDetail.as_view()),

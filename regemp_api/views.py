@@ -208,3 +208,52 @@ class UsuarioList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class EstadoDetail(APIView):
+
+    def get(self, requestid, id):
+
+        try:
+            estado = Estado.objects.get(pk=id)
+            if estado:
+                serializer = DepartamentoSerializer(estado)
+                return Response(serializer.data)
+        except Exception as ex:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status.HTTP_200_OK)
+
+    def put(self, request, id):
+        try:
+            estado = Estado.objects.get(pk=id)
+            if estado:
+                serializer = EstadoSerializer(estado, data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as ex:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        try:
+            estado = Departamento.objects.get(pk=id)
+            estado.delete()
+            return Response(status.HTTP_200_OK)
+        except Exception as ex:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class EstadoList(APIView):
+    def get(self, requestid):
+        estados = Estado.objects.all()
+
+        serializer = EstadoSerializer(estados, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = EstadoSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
