@@ -10,47 +10,47 @@ class EstadoSerializer(serializers.ModelSerializer):
 
 class DepartamentoSerializer(serializers.ModelSerializer):
     estado = EstadoSerializer(many=False, read_only=True)
-    idEstado = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Estado.objects.all(), source='estado')
+    idEstado = serializers.PrimaryKeyRelatedField(write_only=False, queryset=Estado.objects.all(), source='estado')
 
     class Meta:
         model = Departamento
-        fields = ('descripcion', 'idEstado', 'estado')
+        fields = ('id', 'descripcion', 'idEstado', 'estado')
 
 
 class PerfilSerializer(serializers.ModelSerializer):
     estado = EstadoSerializer(many=False, read_only=True)
-    idEstado = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Estado.objects.all(), source='estado')
+    idEstado = serializers.PrimaryKeyRelatedField(write_only=False, queryset=Estado.objects.all(), source='estado')
 
     class Meta:
         model = Perfil
-        fields = ('descripcion', 'esAdministrador', 'idEstado', 'estado')
+        fields = ('id', 'descripcion', 'esAdministrador', 'idEstado', 'estado')
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
     perfil= PerfilSerializer(many=False, read_only=True)
-    idPerfil = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Perfil.objects.all(), source='perfil')
+    idPerfil = serializers.PrimaryKeyRelatedField(write_only=False, queryset=Perfil.objects.all(), source='perfil')
     estado = EstadoSerializer(many=False, read_only=True)
-    idEstado = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Estado.objects.all(), source='estado')
+    idEstado = serializers.PrimaryKeyRelatedField(write_only=False, queryset=Estado.objects.all(), source='estado')
 
     class Meta:
         model = Usuario
-        fields = ('nombreUsuario', 'clave', 'idPerfil', 'idEstado','perfil',
-                  'estado')
+        fields = ('id', 'nombreUsuario', 'clave', 'idPerfil', 'idEstado',
+                  'perfil', 'estado')
 
 
 class EmpleadoSerializer(serializers.ModelSerializer):
     usuario= UsuarioSerializer(many=False, read_only=True)
-    idUsuario = serializers.PrimaryKeyRelatedField(write_only=True,
+    idUsuario = serializers.PrimaryKeyRelatedField(write_only=False,
                     queryset=Usuario.objects.all(), source='usuario')
     departamento= DepartamentoSerializer(many=False, read_only=True)
-    idDepartamento = serializers.PrimaryKeyRelatedField(write_only=True,
+    idDepartamento = serializers.PrimaryKeyRelatedField(write_only=False,
                     queryset=Departamento.objects.all(), source='departamento')
     estado = EstadoSerializer(many=False, read_only=True)
-    idEstado = serializers.PrimaryKeyRelatedField(write_only=True,
+    idEstado = serializers.PrimaryKeyRelatedField(write_only=False,
                             queryset=Estado.objects.all(), source='estado')
 
     class Meta:
         model = Empleado
-        fields = ('nombres', 'apellidos', 'direccion', 'celular', 'email',
-                  'idUsuario', 'usuario', 'idDepartamento', 'departamento',
-                  'foto', 'idEstado', 'estado')
+        fields = ('id', 'nombres', 'apellidos', 'direccion', 'celular',
+                  'email', 'idUsuario', 'usuario', 'idDepartamento',
+                  'departamento', 'foto', 'idEstado', 'estado')
