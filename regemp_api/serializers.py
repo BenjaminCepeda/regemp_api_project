@@ -14,7 +14,7 @@ class DepartamentoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Departamento
-        fields = ('descripcion', 'idEstado', 'estado')
+        fields = ('id', 'descripcion', 'idEstado', 'estado')
 
 
 class PerfilSerializer(serializers.ModelSerializer):
@@ -23,7 +23,7 @@ class PerfilSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Perfil
-        fields = ('descripcion', 'esAdministrador', 'idEstado', 'estado')
+        fields = ('id', 'descripcion', 'esAdministrador', 'idEstado', 'estado')
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -34,8 +34,8 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Usuario
-        fields = ('nombreUsuario', 'clave', 'idPerfil', 'idEstado','perfil',
-                  'estado')
+        fields = ('id', 'nombreUsuario', 'clave', 'idPerfil', 'idEstado',
+                  'perfil', 'estado')
 
 
 class EmpleadoSerializer(serializers.ModelSerializer):
@@ -51,6 +51,6 @@ class EmpleadoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Empleado
-        fields = ('nombres', 'apellidos', 'direccion', 'celular', 'email',
-                  'idUsuario', 'usuario', 'idDepartamento', 'departamento',
-                  'foto', 'idEstado', 'estado')
+        fields = ('id', 'nombres', 'apellidos', 'direccion', 'celular',
+                  'email', 'idUsuario', 'usuario', 'idDepartamento',
+                  'departamento', 'foto', 'idEstado', 'estado')
