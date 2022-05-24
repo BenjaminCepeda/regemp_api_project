@@ -35,7 +35,8 @@ class Empleado(models.Model):
                                   null=False, related_name='usuario')
     departamento = models.ForeignKey(Departamento, on_delete=models.RESTRICT,
                                      null=False, related_name='departamento')
-    foto = models.ImageField(blank=True, null=True)
+    # foto = models.ImageField(blank=True, null=True)
+    foto = models.BinaryField(max_length=None, null=True)
     estado = models.ForeignKey(Estado, on_delete=models.RESTRICT, null=False,
                                  related_name='estadoEmpleado')
 
